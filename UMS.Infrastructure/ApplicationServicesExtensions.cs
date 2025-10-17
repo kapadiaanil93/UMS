@@ -10,6 +10,7 @@ namespace UMS.Infrastructure
         {
             // Register application services here
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
         }
     }
 }

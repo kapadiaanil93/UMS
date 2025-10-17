@@ -32,7 +32,7 @@ namespace UMS.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(User _user)
+        public async Task<IActionResult> Create(UserSaveEntity _user)
         {
             if(!ModelState.IsValid)
             {
@@ -41,6 +41,28 @@ namespace UMS.API.Controllers
             return Ok(await _userService.Register(_user));
         }
         
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var user = await _userService.DeleteUser(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UserUpdateEntity dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid user data." });
+            }
+            return Ok(await _userService.UpdateUser(dto));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
@@ -50,6 +72,17 @@ namespace UMS.API.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var userData = await _userService.GetAllUser();
+            if(userData == null)
+            {
+                return NotFound();
+            }
+            return Ok(userData);
         }
     }
 }

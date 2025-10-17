@@ -5,26 +5,16 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using UMS.Domains.Entities;
 
 namespace UMS.Domain.Entities
 {
-    public class CommonFeild
+    public class UserSaveEntity : CommonFeild
     {
-        public Guid UserId { get; set; }
-        public bool Active { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
-
-    }
-    public class User: CommonFeild
-    {
-        //[Required(ErrorMessage = "Email is mandatory.")]
         [EmailAddress(ErrorMessage = "Email is invalid.")]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Email id mandatory")]
         public string Email { get; set; }
-        
+
         [Required(ErrorMessage = "First is mandatory.")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "First Name is allow only 50 character.")]
         public string FirstName { get; set; }
@@ -38,7 +28,7 @@ namespace UMS.Domain.Entities
 
         [Required(ErrorMessage = "Mobile is mandatory.")]
         [StringLength(25, MinimumLength = 5, ErrorMessage = "Mobile is allow only 25 characters.")]
-        public string Mobile{ get; set; }
+        public string Mobile { get; set; }
 
         [Required(ErrorMessage = "Gender is mandatory.")]
         [RegularExpression(@"^[MF]$", ErrorMessage = "Gender must be 'M' or 'F'.")]
@@ -47,25 +37,88 @@ namespace UMS.Domain.Entities
         [Required(ErrorMessage = "Date of Birth is mandatory.")]
         [DataType(DataType.DateTime)]
         public DateTime DoB { get; set; }
-        public bool? isVerified { get; set; }
-        public UserRole Role { get; set; }
-        public UserDetail UserDetail { get; set; }
+
+        [Required(ErrorMessage = "Role is mandatory.")]
+        [StringLength(25, ErrorMessage = "Role is allow maximum 25 char.")]
+        public required string Role { get; set; }
+
+        [Required(ErrorMessage = "Password is mandatory.")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 100 characters.")]
+        public required string Password { get; set; }
     }
 
+    public class UserUpdateEntity : CommonFeild
+    {
+        [Required(ErrorMessage = "First is mandatory.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "First Name is allow only 50 character.")]
+        public required string FirstName { get; set; }
+
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "")]
+        public string MiddleName { get; set; }
+
+        [Required(ErrorMessage = "Last Name is mandatory")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Last Name is allow only 50 character.")]
+        public required string LastName { get; set; }
+
+        [Required(ErrorMessage = "Mobile is mandatory.")]
+        [StringLength(25, MinimumLength = 5, ErrorMessage = "Mobile is allow only 25 characters.")]
+        public required string Mobile { get; set; }
+
+        [Required(ErrorMessage = "Gender is mandatory.")]
+        [RegularExpression(@"^[MF]$", ErrorMessage = "Gender must be 'M' or 'F'.")]
+        public required string Gender { get; set; }
+
+        [Required(ErrorMessage = "Date of Birth is mandatory.")]
+        [DataType(DataType.DateTime)]
+        public required DateTime DoB { get; set; }
+
+        [Required(ErrorMessage = "Role is mandatory.")]
+        [StringLength(25, ErrorMessage = "Role is allow maximum 25 char.")]
+        public required string Role { get; set; }
+    }
+    
+    public class User: CommonFeild
+    {
+        public string Email { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string MiddleName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Mobile { get; set; }
+
+        public string Gender { get; set; }
+
+        public DateTime DoB { get; set; }
+
+        public bool isVerified { get; set; }
+        public string Role { get; set; }
+
+        public string Password { get; set; }
+    }
+    
+    public class Users
+    {
+        public List<User> users { get; set; }
+    }
+    
     public class UserRole: CommonFeild
     {
         [Required(ErrorMessage = "Role is mandatory.")]
         [StringLength(25, ErrorMessage = "Role is allow maximum 25 char.")]
         public string Role { get; set; }
     }
+    
     public class UserDetail : CommonFeild
     {
         [Required(ErrorMessage = "Passowrd is mandatory.")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 100 characters.")]
         public string Password { get; set; }
     }
-
-    public class AuthenticationResponse: AuthenticationRequest
+    
+    public class AuthenticationResponse
     {
         public Guid UserId { get; set; }
         public string Email { get; set; }
@@ -78,11 +131,11 @@ namespace UMS.Domain.Entities
     {
         [Required(ErrorMessage = "Email is mandatory.")]
         [EmailAddress(ErrorMessage = "Email is invalid.")]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [Required(ErrorMessage = "Password is mandatory.")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 100 characters.")]
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
     }
 }

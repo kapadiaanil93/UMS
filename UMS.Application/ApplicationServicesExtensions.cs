@@ -10,6 +10,7 @@ namespace UMS.Application
         {
             // Register application services here
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
         }
     }
 }
